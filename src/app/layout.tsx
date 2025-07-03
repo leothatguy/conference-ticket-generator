@@ -38,7 +38,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body
 				className={`${jejuMyeongjoFont.variable} ${roboto.variable} ${roadrage.variable} ${alatsi.variable} w-screen min-h-screen font-jejumyeongjo antialiased text-white !px-5 lg:!px-[7.5rem] !py-2.5 md:!py-6  bg-custom-gradient flex flex-col gap-[18px] md:gap-[2.875rem] items-center !pb-[42px] md:!pb-[88px]`}>
-				<div className="!px-5 lg:!px-[7.5rem] !pt-5 md:!pt-12 w-full flex justify-center fixed">
+				<div className="!px-5 lg:!px-[7.5rem] !pt-5 md:!pt-8 w-full flex justify-center z-50 fixed">
 					<NavBar />
 				</div>
 				<main className="w-screen h-full lg:!flex !flex-col !items-center  pt-[88px] md:!pt-32  !px-5">{children}</main>

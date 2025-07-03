@@ -17,6 +17,7 @@ const AttendeeDetails = ({ setFormProgress }: SelectTicketProps) => {
 	const [attendeeName, setAttendeeName] = useState<string>("");
 	const [attendeeEmail, setAttendeeEmail] = useState<string>("");
 	const [attendeeSpecialRequest, setAttendeeSpecialRequest] = useState<string>("");
+	const [attendeeData, setAttendeeData] = useState<AttendeeDataProps>({} as AttendeeDataProps);
 
 	useEffect(() => {
 		const savedData: AttendeeDataProps = JSON.parse(localStorage.getItem("attendeeData") || "{}");
@@ -26,6 +27,7 @@ const AttendeeDetails = ({ setFormProgress }: SelectTicketProps) => {
 			setAttendeeName(savedData.attendeeName || "");
 			setAttendeeEmail(savedData.attendeeEmail || "");
 			setAttendeeSpecialRequest(savedData.attendeeSpecialRequest || "");
+			setAttendeeData(savedData || {} as AttendeeDataProps);
 		}
 	}, []);
 
@@ -40,14 +42,14 @@ const AttendeeDetails = ({ setFormProgress }: SelectTicketProps) => {
 		};
 
 		localStorage.setItem("attendeeData", JSON.stringify(updatedData));
-		localStorage.setItem("formProgress", JSON.stringify(100))
+		localStorage.setItem("formProgress", JSON.stringify(100));
 
 		setFormProgress(100);
 	};
-	const handlePreviousStep = () =>{
-		localStorage.setItem("formProgress", JSON.stringify(33))
-		setFormProgress(33)
-	}
+	const handlePreviousStep = () => {
+		localStorage.setItem("formProgress", JSON.stringify(33));
+		setFormProgress(33);
+	};
 
 	const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -68,23 +70,22 @@ const AttendeeDetails = ({ setFormProgress }: SelectTicketProps) => {
 					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" id="imageUpload" />
 
 					{attendeeImage ? (
-						 <label
-						 htmlFor="imageUpload"
-						 className="mx-auto rounded-[2rem] w-60 h-60 font-regular bg-[#0E464F] flex flex-col items-center justify-center gap-4 text-[#FAFAFA] border-[4px] border-solid border-[#24A0B580] cursor-pointer relative group overflow-hidden"
-					   >
-						 <Image
-						   src={attendeeImage}
-						   width={1000}
-						   height={1000}
-						   alt="Profile"
-						   className="w-full h-full object-cover rounded-[2rem]"
-						 />
-						 {/* Hover Overlay */}
-						 <div className="absolute inset-0 bg-[#0000004D] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-4">
-						   <BiCloudDownload size={32} />
-						   <p className="text-base font-regular text-center">Drag & drop or click to upload</p>
-						 </div>
-					   </label>
+						<label
+							htmlFor="imageUpload"
+							className="mx-auto rounded-[2rem] w-60 h-60 font-regular bg-[#0E464F] flex flex-col items-center justify-center gap-4 text-[#FAFAFA] border-[4px] border-solid border-[#24A0B580] cursor-pointer relative group overflow-hidden">
+							<Image
+								src={attendeeImage}
+								width={1000}
+								height={1000}
+								alt="Profile"
+								className="w-full h-full object-cover rounded-[2rem]"
+							/>
+							{/* Hover Overlay */}
+							<div className="absolute inset-0 bg-[#0000004D] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-4">
+								<BiCloudDownload size={32} />
+								<p className="text-base font-regular text-center">Drag & drop or click to upload</p>
+							</div>
+						</label>
 					) : (
 						<label
 							htmlFor="imageUpload"
@@ -129,7 +130,7 @@ const AttendeeDetails = ({ setFormProgress }: SelectTicketProps) => {
 					<p className="w-full font-regular">Special request?</p>
 					<Textarea
 						value={attendeeSpecialRequest}
-						placeholder="Textarea"
+						placeholder="Enter your special request"
 						onChange={(e) => setAttendeeSpecialRequest(e.target.value)}
 						maxLength={250}
 						required
@@ -144,7 +145,7 @@ const AttendeeDetails = ({ setFormProgress }: SelectTicketProps) => {
 						Back
 					</Button>
 					<Button type="submit" className="bg-[#24A0B5] text-white rounded-lg px-6 py-3 w-full h-fit font-jejumyeongjo">
-						Get My Free Ticket
+						Get My {attendeeData?.ticketType?.charAt(0).toUpperCase() + attendeeData?.ticketType?.slice(1) } Ticket
 					</Button>
 				</section>
 			</Form>
